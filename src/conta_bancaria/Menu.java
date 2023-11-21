@@ -22,7 +22,13 @@ public class Menu {
 		c1.depositar(5000.00f);
 		c1.visual();
 		
+		ContaCorrente cc1 = new ContaCorrente(2 , 456, 1, "Felipe", 100000.00f, 2000.00f);
+		cc1.visual();
+		cc1.sacar(101000.00f);
+		cc1.visual();
 		
+		ContaPoupanca cp1 = new ContaPoupanca(3, 593, 2, "Vinicius", 2.00f, 5);
+		cp1.visual();
 		
 while (true) {
 
@@ -45,7 +51,7 @@ while (true) {
 			System.out.println("|           0 - Sair                                |");
 			System.out.println("|                                                   |");
 			System.out.println("o---------------------------------------------------o");
-			System.out.println("|          Entre com a opção desejada:              |");
+			System.out.println("|            Entre com a opção desejada:            |");
 			System.out.println("o---------------------------------------------------o" + Cores.TEXT_RESET);
 			cod = sc.nextInt();
 

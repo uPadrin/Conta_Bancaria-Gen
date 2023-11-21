@@ -17,7 +17,7 @@ public class Conta {
 		this.tipo = tipo;
 		this.titular = titular;
 		this.saldo = saldo;
-		
+		// This = essa classe & . = esse atributo
 		
 	}
 	// Criamos Método get-set
@@ -60,7 +60,7 @@ public class Conta {
 	public void setSaldo(float saldo) {
 		this.saldo = saldo;
 	}
-	
+	/*Criação do Metodo Sacar*/
 	public boolean sacar(float valor) {
 		if (this.getSaldo() < valor) {
 			System.out.println("\nSaldo Insuficiente");
