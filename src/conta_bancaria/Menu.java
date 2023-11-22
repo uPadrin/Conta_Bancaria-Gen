@@ -1,38 +1,30 @@
 package conta_bancaria;
 
 import java.util.Scanner;
+
+import conta_bancaria.controller.ContaController;
+import conta_bancaria.model.ContaCorrente;
+import conta_bancaria.model.ContaPoupanca;
 import conta_bancaria.util.Cores;
-import conta_bancaria.model.*;
 
 public class Menu {
 
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		
+		ContaController contas = new ContaController();
 
-		int cod;
+		ContaCorrente cc1 = new ContaCorrente(contas.gerarNum(), 123, 1, "Joao", 1000.00f, 100.00f);
+		contas.cadastrar(cc1);
+		
+		
+		int cod, numero, agencia,tipo,aniversario ;
+		float saldo,limite;
+		String titular;
+		
+		while (true) {
 
-		/* Criar Objetos da Classe Conta para testes*/
-		
-		Conta c1 = new Conta(1, 123, 1, "Victória Moraes", 100000.00f);
-		c1.visual();
-		System.out.println("Exibir o Saldo" + c1.getSaldo());
-		c1.sacar(1000.00f);
-		c1.visual();
-		c1.depositar(5000.00f);
-		c1.visual();
-		
-		ContaCorrente cc1 = new ContaCorrente(2 , 456, 1, "Felipe", 100000.00f, 2000.00f);
-		cc1.visual();
-		cc1.sacar(101000.00f);
-		cc1.visual();
-		
-		ContaPoupanca cp1 = new ContaPoupanca(3, 593, 2, "Vinicius", 2.00f, 5);
-		cp1.visual();
-		
-while (true) {
-
-			
 			System.out.println(Cores.ANSI_BLACK_BACKGROUND + Cores.TEXT_PURPLE_BOLD_BRIGHT);
 			System.out.println("o---------------------------------------------------o");
 			System.out.println("|                                                   |");
@@ -56,17 +48,39 @@ while (true) {
 			cod = sc.nextInt();
 
 			if (cod == 0) {
-				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "\nNuBanco Rosa - Lugar perfeito para sua comodidade");
+				System.out
+						.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "\nNuBanco Rosa - Lugar perfeito para sua comodidade");
 				sobre();
 				System.exit(0);
 			}
 
 			switch (cod) {
 			case 1:
-				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Criar Conta\\n\\n");
+				System.out.println("Numero da agência: ");
+				agencia = sc.nextInt();
+				System.out.println("Digite o nome do Titular: ");
+				sc.skip("\\R");
+				titular = sc.nextLine();
+				System.out.println("Digite o Tipo da conta(1 - CC ou 2 - CP): ");
+				tipo = sc.nextInt();
+
+				System.out.println("Digite o saldo da conta: ");
+				saldo = sc.nextFloat();
+
+				switch (tipo) {
+				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNum(), agencia, tipo, titular, saldo, contas.calcularLimite(saldo)));
+			
+				case 2 -> {
+					System.out.println("Digite o Aniversário da conta: ");
+					aniversario = sc.nextInt();
+					contas.cadastrar(
+							new ContaPoupanca(contas.gerarNum(), agencia, tipo, titular, saldo, aniversario));
+				}
+				}
 				break;
 			case 2:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Listar todas as Contas\n\n");
+				contas.listarTodas();
 				break;
 			case 3:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Consultar dados da Conta - por número\n\n");
@@ -93,6 +107,7 @@ while (true) {
 
 		}
 	}
+
 	public static String tema = Cores.TEXT_PURPLE_BOLD_BRIGHT;
 
 	public static void sobre() {
