@@ -27,8 +27,7 @@ public class ContaCorrente extends Conta {
 		
 		this.setSaldo(this.getSaldo()- valor);
 		return true;
-	}
-	
+	}	
 	/*Polimorfismo ou sobrescrever */
 	@Override
 	public void visual() {

@@ -9,20 +9,27 @@ public class ContaController implements ContaRepository {
 
 	// Cria a Collection
 	private ArrayList<Conta> listaContas = new ArrayList<Conta>();
-
+	// Conta = class
 	// Variavel para receber o numero da conta
 	int numero = 0;
 
 	@Override
 	public void procuraPorNumero(int numero) {
-		// TODO Auto-generated method stub
-
+		var conta = buscarColle(numero);
+		if (conta != null)
+			conta.visual();
+		else
+			System.out.println("A conta numero " + numero + " não foi encontrada");
 	}
 
 	@Override
 	public void listarTodas() {
+		if(listaContas.isEmpty()) {
+            System.out.println("Não existem contas cadastradas.");
+        }else
 		for (var conta : listaContas) {
 			conta.visual();
+
 		}
 
 	}
@@ -41,7 +48,12 @@ public class ContaController implements ContaRepository {
 
 	@Override
 	public void deletar(int numero) {
-		// TODO Auto-generated method stub
+		var conta = buscarColle(numero);
+		if (conta != null) {
+			if (listaContas.remove(conta) == true)
+				System.out.println("A conta numero: " + numero + " foi excluida com sucesso!");
+	} else
+				System.out.println("A conta numero " + numero + " não foi encontrada");
 
 	}
 
@@ -67,6 +79,14 @@ public class ContaController implements ContaRepository {
 
 	public int gerarNum() {
 		return ++numero;
+	}
+
+	public Conta buscarColle(int numero) {
+		for (var conta : listaContas) {
+			if (conta.getNumero() == numero)
+				return conta;
+		}
+		return null;
 	}
 
 	public float calcularLimite(float saldo) {

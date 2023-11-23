@@ -1,5 +1,7 @@
 package conta_bancaria;
 
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import conta_bancaria.controller.ContaController;
@@ -19,8 +21,8 @@ public class Menu {
 		contas.cadastrar(cc1);
 		
 		
-		int cod, numero, agencia,tipo,aniversario ;
-		float saldo,limite;
+		int cod, agencia,numero,tipo,aniversario ;
+		float saldo;
 		String titular;
 		
 		while (true) {
@@ -45,8 +47,14 @@ public class Menu {
 			System.out.println("o---------------------------------------------------o");
 			System.out.println("|            Entre com a opção desejada:            |");
 			System.out.println("o---------------------------------------------------o" + Cores.TEXT_RESET);
-			cod = sc.nextInt();
-
+			
+			try {
+			cod = sc.nextInt();		
+			}catch(InputMismatchException e) {
+				System.out.println("Digite valores Inteiros");
+				sc.nextLine();
+				cod = 9;
+			}
 			if (cod == 0) {
 				System.out
 						.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "\nNuBanco Rosa - Lugar perfeito para sua comodidade");
@@ -56,6 +64,7 @@ public class Menu {
 
 			switch (cod) {
 			case 1:
+				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Criar Conta\n\n");
 				System.out.println("Numero da agência: ");
 				agencia = sc.nextInt();
 				System.out.println("Digite o nome do Titular: ");
@@ -68,40 +77,56 @@ public class Menu {
 				saldo = sc.nextFloat();
 
 				switch (tipo) {
-				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNum(), agencia, tipo, titular, saldo, contas.calcularLimite(saldo)));
-			
+				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNum(), agencia, tipo, titular, saldo, contas.calcularLimite(saldo))); //Conta conta - Objeto conta
+			//            ContaCorrente cc1(Contas(ContaController).cadastras) = new ContaCorrente(contas.gerarNum(), 123, 1, "Joao", 1000.00f, 100.00f);
 				case 2 -> {
-					System.out.println("Digite o Aniversário da conta: ");
+					System.out.println("Digite o Aniversário da conta: " + Cores.TEXT_RESET);
 					aniversario = sc.nextInt();
 					contas.cadastrar(
 							new ContaPoupanca(contas.gerarNum(), agencia, tipo, titular, saldo, aniversario));
 				}
 				}
+				keyPress();
 				break;
 			case 2:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Listar todas as Contas\n\n");
 				contas.listarTodas();
+				keyPress();
 				break;
 			case 3:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Consultar dados da Conta - por número\n\n");
+				
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+				contas.procuraPorNumero(numero);
+				keyPress();
 				break;
 			case 4:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Atualizar dados da Conta\n\n");
+				keyPress();
 				break;
 			case 5:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Apagar a Conta\n\n");
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+				contas.deletar(numero);
+				keyPress();
 				break;
 			case 6:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Saque\n\n");
+				keyPress();
 				break;
 			case 7:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Depósito\n\n");
+				keyPress();
 				break;
 			case 8:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Transferência entre Contas\n\n");
+				keyPress();
 				break;
 			default:
 				System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!\n" + Cores.TEXT_RESET);
+				keyPress();
 				break;
 			}
 
@@ -117,6 +142,15 @@ public class Menu {
 		System.out.println("|Bryan S Vieira - bryan.vieira2013@gmail.com            |");
 		System.out.println("|github.com/uPadrin                                     |");
 		System.out.println("o-------------------------------------------------------o");
+	}
+
+	public static void keyPress() {
+		try {
+			System.out.println("\nPressione a tecla Enter para continaur...");
+			System.in.read();
+		} catch (IOException e) {
+			System.out.println("Você pressionou uma tecla inválida!");
+		}
 	}
 
 }
