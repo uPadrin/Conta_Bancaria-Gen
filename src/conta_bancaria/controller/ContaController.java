@@ -1,6 +1,7 @@
 package conta_bancaria.controller;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import conta_bancaria.model.Conta;
 import conta_bancaria.repository.ContaRepository;
@@ -15,22 +16,24 @@ public class ContaController implements ContaRepository {
 
 	@Override
 	public void procuraPorNumero(int numero) {
-		var conta = buscarColle(numero);
-		if (conta != null)
-			conta.visual();
+
+		Optional<Conta> conta = buscarColle(numero);
+
+		if (conta.isPresent())
+			conta.get().visual();
 		else
 			System.out.println("A conta numero " + numero + " não foi encontrada");
 	}
 
 	@Override
 	public void listarTodas() {
-		if(listaContas.isEmpty()) {
-            System.out.println("Não existem contas cadastradas.");
-        }else
-		for (var conta : listaContas) {
-			conta.visual();
+		if (listaContas.isEmpty()) {
+			System.out.println("Não existem contas cadastradas.");
+		} else
+			for (var conta : listaContas) {
+				conta.visual();
 
-		}
+			}
 
 	}
 
@@ -42,18 +45,25 @@ public class ContaController implements ContaRepository {
 
 	@Override
 	public void atualizar(Conta conta) {
-		// TODO Auto-generated method stub
+
+		Optional<Conta> buscaConta = buscarColle(conta.getNumero());
+		if (buscaConta.isPresent()) {
+			listaContas.set(listaContas.indexOf(buscaConta.get()), conta);
+			System.out.println("A conta numero: " + conta.getNumero() + " foi atualizada com sucesso!");
+		} else
+			System.out.println("A conta numero: " + conta.getNumero() + " não foi encontrada");
 
 	}
 
 	@Override
 	public void deletar(int numero) {
-		var conta = buscarColle(numero);
-		if (conta != null) {
-			if (listaContas.remove(conta) == true)
+
+		Optional<Conta> conta = buscarColle(numero);
+		if (conta.isPresent()) {
+			if (listaContas.remove(conta.get()) == true)
 				System.out.println("A conta numero: " + numero + " foi excluida com sucesso!");
-	} else
-				System.out.println("A conta numero " + numero + " não foi encontrada");
+		} else
+			System.out.println("A conta numero " + numero + " não foi encontrada");
 
 	}
 
@@ -81,12 +91,14 @@ public class ContaController implements ContaRepository {
 		return ++numero;
 	}
 
-	public Conta buscarColle(int numero) {
+	public Optional<Conta> buscarColle(int numero) {
+
 		for (var conta : listaContas) {
 			if (conta.getNumero() == numero)
-				return conta;
+				return Optional.of(conta);
 		}
-		return null;
+
+		return Optional.empty();
 	}
 
 	public float calcularLimite(float saldo) {
