@@ -23,8 +23,8 @@ public class Menu {
 		contas.cadastrar(cc1);
 		
 		
-		int cod, agencia,numero,tipo,aniversario,limite ;
-		float saldo;
+		int cod, agencia,numero,tipo,aniversario, numeroDestino;
+		float saldo, valor, limite;
 		String titular;
 		
 		while (true) {
@@ -147,21 +147,56 @@ public class Menu {
 				break;
 			case 5:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Apagar a Conta\n\n");
-				System.out.println("Digite o numero da conta: ");
+				
+				System.out.println("Digite o numero da Conta: ");
 				numero = sc.nextInt();
 				contas.deletar(numero);
+				
 				keyPress();
 				break;
 			case 6:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Saque\n\n");
+				
+				System.out.println("Digite o numero da Conta: ");
+				numero = sc.nextInt();
+				
+				System.out.println("Digite o valor do saque: ");
+				valor = sc.nextFloat();
+				
+				contas.sacar(numero, valor);
+				
 				keyPress();
 				break;
 			case 7:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Depósito\n\n");
+				
+				System.out.println("Digite o numero da Conta: ");
+				numero = sc.nextInt();
+				
+				System.out.println("Digite o valor do deposito: ");
+				valor = sc.nextFloat();
+				
+				contas.depositar(numero, valor);
+				
 				keyPress();
 				break;
 			case 8:
 				System.out.println(Cores.TEXT_PURPLE_BOLD_BRIGHT + "Transferência entre Contas\n\n");
+				
+				System.out.println("Digite o numero da Conta de Origem: ");
+				numero = sc.nextInt();
+				
+				System.out.println("Digite o numero da Conta de Destino: ");
+				numeroDestino = sc.nextInt();
+				
+				if (numero != numeroDestino) {
+				System.out.println("Digite o valor da tranferencia: ");
+				valor = sc.nextFloat();
+				
+				contas.tranferir(numero, numeroDestino, valor);
+				
+				}else
+					System.out.println("Os números das Contas são Iguais!");
 				keyPress();
 				break;
 			default:
