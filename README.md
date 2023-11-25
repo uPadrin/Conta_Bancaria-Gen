@@ -30,4 +30,4 @@ CRUD de um banco usando principicos de Programação Orientada a Objetos
 
 ## Referências
 
-- https://github.com/conteudoGeneration/cookbook_java_fullstack/tree/main/01_java
+- cookbook https://github.com/conteudoGeneration/cookbook_java_fullstack/tree/main/01_java
