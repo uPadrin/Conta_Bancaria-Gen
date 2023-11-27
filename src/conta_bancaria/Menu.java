@@ -44,6 +44,7 @@ public class Menu {
 			System.out.println("|           6 - Sacar                               |");
 			System.out.println("|           7 - Depositar                           |");
 			System.out.println("|           8 - Transferir valores entre Contas     |");
+			System.out.println("|           9 - Buscar por Titular                  |");
 			System.out.println("|           0 - Sair                                |");
 			System.out.println("|                                                   |");
 			System.out.println("o---------------------------------------------------o");
@@ -197,6 +198,17 @@ public class Menu {
 				
 				}else
 					System.out.println("Os números das Contas são Iguais!");
+				keyPress();
+				break;
+			case 9:
+				System.out.println(tema + "Consultar conta por titular\n\n");
+				
+				System.out.println("Digite o nome do Titular: ");
+				sc.skip("\\R");
+				titular = sc.nextLine();
+				
+				contas.procurarPorNome(titular);
+				
 				keyPress();
 				break;
 			default:

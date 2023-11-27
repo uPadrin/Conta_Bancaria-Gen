@@ -1,7 +1,9 @@
 package conta_bancaria.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import conta_bancaria.model.Conta;
 import conta_bancaria.repository.ContaRepository;
@@ -25,6 +27,17 @@ public class ContaController implements ContaRepository {
 			System.out.println("A conta numero " + numero + " não foi encontrada");
 	}
 
+	public void procurarPorNome(String titular ) {
+		
+		List<Conta> listaNome  = listaContas.stream()
+				.filter(c -> c.getTitular().contains(titular))
+				.collect(Collectors.toList());
+		
+		for(var conta : listaNome)
+			conta.visual();
+						
+	}
+	
 	@Override
 	public void listarTodas() {
 		if (listaContas.isEmpty()) {
@@ -86,24 +99,24 @@ public class ContaController implements ContaRepository {
 
 		if (conta.isPresent()) {
 			conta.get().depositar(valor);
-				System.out.println("O deposito na conta numero: " + numero + " foi efetuado com sucesso!");
+			System.out.println("O deposito na conta numero: " + numero + " foi efetuado com sucesso!");
 		} else
 			System.out.println("A conta numero " + numero + " não foi encontrada");
 	}
 
 	@Override
 	public void tranferir(int numeroOrigem, int numeroDestino, float valor) {
-	
+
 		Optional<Conta> contaOrigem = buscarColle(numeroOrigem);
 		Optional<Conta> contaDestino = buscarColle(numeroDestino);
-		
-		
+
 		if (contaOrigem.isPresent() && contaDestino.isPresent()) {
 			if (contaOrigem.get().sacar(valor) == true) {
 				contaDestino.get().depositar(valor);
-				System.out.println("O a transferencia da conta numero: " + numeroOrigem + " para conta numero " + numeroDestino + " foi efetuado com sucesso!");
+				System.out.println("O a transferencia da conta numero: " + numeroOrigem + " para conta numero "
+						+ numeroDestino + " foi efetuado com sucesso!");
 			}
-			} else
+		} else
 			System.out.println("A conta Origem/Destino não foi encontrada");
 	}
 
